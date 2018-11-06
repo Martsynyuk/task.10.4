@@ -27,15 +27,19 @@ class ProjectsController extends Controller
 
     public function addOrUpdateProject(Request $request, $id = false)
     {
+        $this->validate($request, [
+            'status' => 'in:' . implode(',', Projects::getStatuses())
+        ]);
+
         if ($id !== false) {
             $project = Projects::on()->find($id);
         } else {
             $project = new Projects();
         }
 
-        $project->name = $request->name;
+        $project->name         = $request->name;
         $project->description  = $request->last_name;
-        $project->status      = $request->status;
+        $project->status       = $request->status;
 
         $project->save();
 
