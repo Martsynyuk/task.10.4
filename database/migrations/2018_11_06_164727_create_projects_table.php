@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Project;
+use App\Projects;
 
 class CreateProjectsTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->enum('status', Project::getStatuses());
+            $table->enum('status', Projects::getStatuses());
         });
     }
 
