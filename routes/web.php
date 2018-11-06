@@ -22,5 +22,5 @@ Route::post('/project/form/{id?}', 'ProjectsController@addOrUpdateProject')->whe
 Route::post('/project/delete/{id}', 'ProjectsController@deleteProject')->where('id', '[0-9]+');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });

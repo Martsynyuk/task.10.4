@@ -22,7 +22,10 @@ class ProjectsController extends Controller
 
     public function showProject($id)
     {
-        return view('projects.project', ['projects' => Projects::on()->find($id)]);
+        return view('projects.project', [
+            'project'  => Projects::on()->findOrFail($id),
+            'statuses' => Projects::getStatuses()
+        ]);
     }
 
     public function addOrUpdateProject(Request $request, $id = false)
