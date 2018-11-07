@@ -13,11 +13,13 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
+        $statuses = Projects::getStatuses();
+
         for ($i = 1; $i < 20; $i++) {
             DB::table('projects')->insert([
                 'name' => str_random(10),
                 'description' => str_random(10),
-                'status' => Projects::getStatuses()[array_rand(Projects::getStatuses(), 1)],
+                'status' => $statuses[array_rand($statuses, 1)],
             ]);
         }
     }
