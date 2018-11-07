@@ -18,7 +18,7 @@ class ClientsController extends Controller
 {
     public function showAllClients()
     {
-        return view('clients.all', ['clients' => Clients::all()]);
+        return view('clients.all', ['clients' => Clients::on()->paginate(10)]);
     }
 
     public function showClient($id = 0)
