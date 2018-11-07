@@ -15,11 +15,15 @@ class Projects extends Model
         'cancel'
     ];
 
+    protected $table = 'projects';
+
+    public $timestamps = false;
+
     // return allowed statuses
     public static function getStatuses()
     {
         return self::$statuses;
     }
 
-    protected $table = 'projects';
+
 }

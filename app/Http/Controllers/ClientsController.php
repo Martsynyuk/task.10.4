@@ -21,9 +21,12 @@ class ClientsController extends Controller
         return view('clients.all', ['clients' => Clients::on()->paginate(10)]);
     }
 
-    public function showClient($id = 0)
+    public function showClient($id = false)
     {
-        return view('clients.client', ['client' => Clients::on()->findOrFail($id)]);
+        if ($id !== false) {
+            return view('clients.client', ['client' => Clients::on()->findOrFail($id)]);
+        }
+        return  view('clients.client', ['client' => []]);
     }
 
     public function addOrUpdateClient(Request $request, $id = false)
@@ -40,12 +43,12 @@ class ClientsController extends Controller
         $client->password   = Hash::make($request->password);
 
         $client->save();
-        return redirect()->route('clients');
+        return redirect()->action('ClientsController@showAllClients');
     }
 
     public function deleteClient($id)
     {
         Clients::on()->find($id)->delete();
-        return redirect()->route('clients');
+        return redirect()->action('ClientsController@showAllClients');
     }
 }

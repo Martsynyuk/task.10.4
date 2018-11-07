@@ -11,20 +11,25 @@ namespace App\Http\Controllers;
 use App\Projects;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class ProjectsController extends Controller
 {
     public function showProjects()
     {
-        return view('projects.all', ['projects' => Projects::all()]);
+        return view('projects.all', ['projects' => Projects::on()->paginate(15)]);
     }
 
-    public function showProject($id)
+    public function showProject($id = 0)
     {
+        if ($id != 0) {
+            return view('projects.project', [
+                'project'  => Projects::on()->findOrFail($id),
+                'statuses' => Projects::getStatuses()
+            ]);
+        }
+
         return view('projects.project', [
-            'project'  => Projects::on()->findOrFail($id),
-            'statuses' => Projects::getStatuses()
+            'project'  => [],
         ]);
     }
 
@@ -41,17 +46,17 @@ class ProjectsController extends Controller
         }
 
         $project->name         = $request->name;
-        $project->description  = $request->last_name;
+        $project->description  = $request->description;
         $project->status       = $request->status;
 
         $project->save();
 
-        return redirect()->route('projects');
+        return redirect()->action('ProjectsController@showProjects');
     }
 
     public function deleteProject($id)
     {
         Projects::on()->find($id)->delete();
-        return redirect()->route('projects');
+        return redirect()->action('ProjectsController@showProjects');
     }
 }
